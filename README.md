@@ -1,6 +1,8 @@
 ## Gifski fork with Custom Delay Feature
 
-This fork adds a `--delay` flag so you can specify custom frame delays via filename.  This works for me on Windows 11 and that's as far as I'm going with this one.  I'll throw up a "release" just in case someone wants to use this without setting up rust to compile it.  "Use at your own risk."
+This fork adds a `--delay` flag so you can specify custom frame delays via filename.  This works for me on Windows 11 and that's as far as I'm going with this one.  "Use at your own risk."
+
+**Download my delay-enabled Windows build:** see this fork's [releases](https://github.com/usrname0/gifski_with_delay/releases) page — handy if you just want the `.exe` without setting up Rust to compile it.
 
 Usage:
 ```bash
@@ -126,7 +128,9 @@ The `cbuild` command can be omitted, since `cinstall` will trigger a build if it
 
 ## License
 
-AGPL 3 or later. I can offer alternative licensing options, including [commercial licenses](https://supso.org/projects/pngquant). Let [me](https://kornel.ski/contact) know if you'd like to use it in a product incompatible with this license.
+AGPL 3 or later. (This fork keeps the original license unchanged.) The line below is from the original gifski author — alternative/commercial licensing is offered by them, not by me as the fork maintainer:
+
+> I can offer alternative licensing options, including [commercial licenses](https://supso.org/projects/pngquant). Let [me](https://kornel.ski/contact) know if you'd like to use it in a product incompatible with this license.
 
 ## With built-in video support
 
