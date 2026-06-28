@@ -37,10 +37,29 @@ impl Source for Lodecoder {
         let dest = &*dest;
         let f = std::mem::take(&mut self.frames);
         let delays = self.custom_delays.take();
-        
-        let mut accumulated_time = 0.0;
+        let frame_count = f.len();
+
         let default_frame_duration = 1.0 / self.fps;
-        
+
+        // gifski derives a frame's duration from the gap to the *next* frame's
+        // presentation timestamp. The last frame has no next frame, so a custom
+        // delay on it would otherwise be ignored (gifski falls back to the
+        // previous inter-frame gap). gifski's workaround: a non-zero first-frame
+        // pts is treated as a global shift *and* as the last frame's delay. So we
+        // offset every frame by the last frame's intended delay; gifski shifts it
+        // back to start at 0 and gives the final frame exactly that duration.
+        // Other frames' durations are gaps, which are unaffected by the shift.
+        // NB: the offset must be > 10ms (1/100s) to trigger gifski's rule.
+        let last_frame_delay = delays.as_ref()
+            .and_then(|d| d.get(frame_count.wrapping_sub(1)).copied())
+            .flatten();
+        let pts_offset = match last_frame_delay {
+            Some(ms) => f64::from(ms) / 1000.0,
+            None => 0.0,
+        };
+
+        let mut accumulated_time = pts_offset;
+
         for (i, frame) in f.into_iter().enumerate() {
             let presentation_timestamp = accumulated_time;
             

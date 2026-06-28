@@ -1,6 +1,12 @@
 /target/
 **/*.rs.bk
 
+# Windows build output directory (cargo artifacts)
+/gifski+delay(windows)/
+
+# Claude Code local config
+.claude/
+
 # Snap packaging specific rules
 /snap/.snapcraft/
 /parts/
